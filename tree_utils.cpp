@@ -93,7 +93,8 @@ class Trees {
 
 		static vector<int> traverseTree(TreeNode* head) {
 	        vector<int> res;
-	        typeOrderOfChoiceFn(root, res);
+            // methods among the above ^^
+	        // typeOrderOfChoiceFn(root, res);
 	        return res;
 		}
 
