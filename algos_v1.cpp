@@ -8,29 +8,6 @@ string compare function:
                                 > if obj is LEXICOGRAPHICcally greater val returned is <0;
                                 > 0 if equal.
 
-// min jump array INTERVIEWBIT
-
-int Solution::jump(vector<int> &A){
-    int n= A.size();
-    if(n<=1)
-        return 0;
-    if(A[0] == 0)
-        return -1;
-    int cur= 0, curmax= A[0], steps=1 ; // size greater than 1, so steps >= 1 
-                                        //and curmax = max we can go currently
-    while(curmax < n-1){                // till it is less than target
-        int curend= curmax;                     
-        for(int i= cur+1; i<=curend; i++)// check if in b/w points can give you better curmax
-            curmax= max(curmax, i + A[i]);
-        steps++;
-        if(curend == curmax) // since the loop <=curend that means curmax should have inc.
-            return -1;      //  but it didn't means we cannot go beyond current cumax  
-        cur= curend;        // now check curend and next curmax ke beech ka.
-    }
-    return steps;
-}
-
-
 Buy n Sell stock problems:
     121: only one transaction allowed, so while traversing, maintain a variable (buy)which stores minimum prices till then, 
         if a val less than it comes, update it, else update profit= max(prices[i]-buy, profit)
