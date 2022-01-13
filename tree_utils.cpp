@@ -91,16 +91,17 @@ class Trees {
 
 	public:
 
-		static vector<int> traverseTree(TreeNode* head) {
+		static vector<int> traverseTree(TreeNode* root) {
 	        vector<int> res;
             // methods among the above ^^
 	        // typeOrderOfChoiceFn(root, res);
 	        return res;
 		}
 
-        static int getHeight(TreeNode* head) {
-            if(head)
-                return 1+ max(depth(head->left),depth(head->right));
-            return 0;
+        static int getHeight(TreeNode* root) {
+            if(root == NULL)
+                return 0;
+
+            return 1+ max(depth(root->left),depth(root->right));
         }	
 };
