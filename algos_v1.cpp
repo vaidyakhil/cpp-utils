@@ -1,3 +1,7 @@
+/*
+**  THIS MONOLITH NEEDS TO BE DEPRECATED
+*/
+
 string compare function:
     it return int val obj.compare(test) : 
                                 > if obj is LEXICOGRAPHICcally smaller val returned is <0;
