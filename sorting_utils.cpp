@@ -4,6 +4,17 @@
 using namespace std;
 
 class SortingUtils {
+
+	/*
+	** bucket sort, counting sort, radix sort, these all can work in O(n) with specific dataset but SPACE COMPLEXITY INCREASES.
+	** for bucket sort: 
+	    if almost uniformally distributed data is present.
+	** for counting sort: 
+	    if range of data O(n).
+	** for  radix sort:
+	    if ~ n > logb(n); 
+	*/
+
 	private: 
 		void static swap(vector<int>& arr, int i, int ind) {
 			int temp= arr[i];

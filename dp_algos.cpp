@@ -1,5 +1,26 @@
 class DpUtills {
 
+    /*
+    ** If all subproblems must be solved at least once, a bottom-up dynamic-programming algorithm usually outperforms a top-down memoized algorithm by a constant factor.
+
+    ** If some subproblems need not to be solved at all, memoization will be better than DP, else in general DP outperforms memo due to less overhead of call stack.
+    */
+
+
+    /*
+    ** MEMOIZATION TEMPLATE
+        datatype recur_func(n,r){
+            secure base cases:
+            return c;
+            check if value in memory:
+                return it.
+            x= INT_MAX/MIN
+            for loop:
+                x= min/max(recur_func(b,c), recur_func(d,e));
+            else return cache[n][r]= x;
+        }
+    */
+
     private:
         // generates a string adding chars at the start and end of original string
         // that do not exist in original string 
@@ -165,6 +186,28 @@ class DpUtills {
                 }        
             }
             return dp[n-1];
+        }
+
+        // kadane's algo
+        int maxSubArray(vector<int>& nums) {
+            int n = nums.size();
+            if ( n == 0) { 
+                return 0;
+            }
+            
+            long long res = nums[0];3
+            long long cur = 0;
+            for (int i=0; i<n; i++) {
+                // if all nums are negative, we are comparing individual num with res,
+                // since cur = 0 at the start of every iteration
+                cur+= nums[i];
+                res = max(res, cur);
+                
+                if (cur < 0) {
+                    cur = 0;
+                }
+            }
+            return res;
         }
     }   
 }

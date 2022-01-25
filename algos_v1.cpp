@@ -78,101 +78,7 @@ int Solution::numDecodings(string A) {
     return cache[n];
 } 
 
-// nlogn approach LIS
-int binsearch(int* arr, int target, int h){
-        int l= 0; 
-        while(l < h){
-            int mid= l + (h-l)/2;
-            if( arr[mid] < target)
-                l= mid + 1;
-            else 
-                h= mid;
-        }
-        return l;
-    }
-    
-int lengthOfLIS(vector<int>& nums) {
-    int n= nums.size();
-    if(n <= 1) return n;
-    int dp[n], len= 0;
-    for(int i= 0; i<n; i++){
-        dp[i]= INT_MAX;
-        int x= binsearch(dp, nums[i], len);
-        dp[x]= nums[i];
-        len= max(len, x + 1);
-    }
-    return len;
-}
-
 // less than more than compare operators compare strings in LEXICOGRAPHIC order
-
-// longest palindromic SUBSEQUENCE or common subsequence we check i and j letter if match return 2 + (i+1, j-1) if dont match we return max((i+1, j), (i, j-1));
-    //the questions where the problem can be written as combination of finite number of last calculated values we can use pointers 
-    //to reduce space complexity as previous values calculated before certain value are not useful.
-
-    int longestPalindromeSubseq(string s) {
-        
-        if(!s.length()) return 0;
-        if(s.length() == 1) return 1;
-        int n= s.length();
-        vector<int> v_2(n,0), v_1(n, 1), v(n, 0), *p= &v, *p_2= &v_2, *p_1= &v_1;
-        for(int i= 2; i<=n; i++){
-            for(int j=0; j< n-i+1; j++)
-                p->at(j)= (s[j] == s[j+ i -1] ? 2 + p_2->at(j+1) : max(p_1->at(j), p_1->at(j+1) ) );
-            vector<int> *temp= p_2;
-            p_2= p_1;
-            p_1= p;
-            p=temp;
-        }
-        return p_1->at(0);
-    } 
-
-    int longestPalindromeSubseq(string s) {
-        int n= s.length();
-        int dp[n];
-        for(int i=0; i<n; i++){
-            int back_up= 0; // at any time when i ,j finished backup will store lps(j+1, i-1)
-            for(int j= i; j>=0; j--){
-                if(i == j)
-                    dp[j]= 1;
-                
-                else if(s[i] == s[j]){
-                    int temp= dp[j];    // when calc j-1, i+1 ka lps, we need j, i ka lps which this currently holds // but current val of back_up has to be used so save in temp;
-                    dp[j]= 2 + back_up;
-                    back_up= temp;
-                }
-                
-                else{
-                    back_up= dp[j];     // this val again to calc the next wala
-                    dp[j]= max(dp[j] , dp[j+1]);
-                } 
-            }
-        }
-        return dp[0];
-    }
-
-//longest common subsequence
-    The nlog(n) approach:
-    // this uses an additional array, arr[i] stores the value of minimum element that can be used for length i LIS.
-    // it calls for binsearch in array, initially 0th element gets 1 pos, now we check 1st element and if it is smaller than 0th we update the minim element for LIS of length 1, else it will get 2 pos,\
-    so basically hm dekh rhe hain ki ith element kis length of LIS ke minm last element se  greater than or equal to hai. that index in L array will give LIS terminating with that element. 
-    int lengthOfLIS(vector<int>& nums) {
-        int n= nums.size();
-        if(n <= 1) return n;
-        int dp[n], L[n+1], len=1;
-        for(int i=1; i<=n; i++)
-            L[i]= INT_MAX;
-        L[0]= INT_MIN;
-        
-        for(int i=0; i<n; i++){
-            int target= nums[i];
-            dp[i]= binsearch(L, target, len); // l= mid +1 wala that is lower bound ki location dene wala
-            L[dp[i]]= target;
-            len=max(len, dp[i] + 1);
-        }
-        return len-1;
-    }
-
 
 // dp-29 longest common substring, the above procedure will not work, since we want continous part (SUBSTRING). so for that fill up a dp[i][j] which stores LONGEST COMMON SUBSTRING IN S1 and  S2, INCLUDING i th of S1 and j th of S2. SO if char does not match store zero if match store 1 + [i-1][j-1]; DONT KNOW RECURSIVE.   
  dp-27 and optimum binary tree?????????
@@ -218,79 +124,11 @@ int main(){
     return 0;
 }
 
-// while recursion there will always be two paths such that one will require passing dimension of cache, and one will restrict call to x>0. use the second one less error prone.  
-
 // edit distance, 
     //we match the letter, if it matches then min steps equals the steps required upto previous letter.
     //if it doesnt match we try all, 1+ delete(n-1, m), replace(n-1, m-1), insert(n, m-1).
 
-// max common subsequence 
-    //in memoization we check:  (a[i] == b[j]? 1+ check dono ka next, else find a(next char) in b(same pos) and b(next char) in a(same pos) and return  max.
-    //in iterative we fill entries as max length of sub sequence upto a[i] and b[j] and finally return cache[n][m];
-    // some subproblems need not to be solved so memo better than tabular
-
-// maximum inc or dec SUBSEQUENCE requires every subproblem to be calculated hence use iterative.
-
 // Dynamic Programming
-
-basic structure wil be like 
------------------------------
-datatype recur_func(n,r){
-    secure base cases:
-    return c;
-    check if value in memory:
-        return it.
-    else return cache[n][r]= a+ recur_func(b,c) + recur_func(d,e);
-}
-------------------------------
-datatype recur_func(n,r){
-    secure base cases:
-    return c;
-    check if value in memory:
-        return it.
-    x= INT_MAX/MIN
-    for loop:
-        x= min/max(recur_func(b,c), recur_func(d,e));
-    else return cache[n][r]= x;
-}
-------------------------------
-            top-down
-main func(){
-    may initialize cache with -1 or some const value.
-    return recur_func(n,r);
-}
-**************************************
-            bottom-up
-main func(){
-    may initialize cache with -1 or some const value.
-    fill the cache with base cases.
-    build from bottom to top the cache and finaly return cache[n][r];
-}
-
-
-
-If all subproblems must be solved at least once, a bottom-up dynamic-programming algorithm usually outperforms a top-down memoized algorithm by a constant factor.
-No overhead for recursion and less overhead for maintaining table
-There are some problems for which the regular pattern of table accesses in the dynamic-programming algorithm can be exploited to reduce the time or space requirements even further.
-If some subproblems in the subproblem space need not be solved at all, the memoized solution has the advantage of solving only those subproblems that are definitely required
-
-//kadane  max sum sub array
-different forms of kadane are used in different quesions(max sub array, max non negative array etc.) 
-
-int maxSubArray(vector<int>& nums) {
-        if(nums.empty())
-            return 0;
-        int sum=nums[0];
-        int cur=0;
-        for(int i=0; i<nums.size(); i++){
-            cur= cur + nums[i];
-            if(cur > sum)
-                sum=cur;
-            if( cur < 0)
-                cur=0;
-        }
-        return sum;
-    }
 
 // interviewbit flip Arrays
 if(A.empty() || !A.length()) return vector<int >({});//{}
@@ -495,54 +333,6 @@ void breakit(int beg, int end, vector<int>& A){
     
     merge(beg, end, A);
 }
-____________________________________________________________________________________________________________________________________________________________________________________________
-
-void swap(int* arr, int i, int j)
-{
-    int temp= arr[i];
-    arr[i]= arr[j];
-    arr[j]= temp;
-    return;
-}
-
-void sortit(*int arr, int beg, int end)
-{
-    int count= 0, piv= end, pos= beg-1;
-    for(int i= beg; i<end; i++)
-    {
-        if(arr[i] <= arr[piv])
-        {
-            swap(arr, i, beg+count);
-            count++;
-        }
-    }
-    swap(arr, piv, beg + count);
-    return beg + count;
-}
-
-quick_sort(int* arr, i, j)
-{
-    if(beg < end)
-    {
-        int piv= sortit(*arr, beg, end);
-        quick_sort(arr, beg, piv-1);
-        quick_sort(arr, piv+1, end);
-        return;
-    }
-    return;
-}
-----------------------------------------------------
-
-bucket sort, counting sort, radix sort, these all can work in O(n) with specific dataset but SPACE COMPLEXITY INCREASES.
-
-for bucket sort: 
-    if almost uniformally distributed data is present.
-
-for counting sort: 
-    if range of data O(n).
-
-for  radix sort:
-    if ~ n > logb(n); 
 
 -------------------------------------------------------------
 
@@ -978,57 +768,6 @@ int main(){
         cout<<ans<<endl;
     }
     return 0;
-}
-
-
-___________________________________________________________________________________________________________________________________________________________________________________________________________
-
-void hash(string& s, string& ans){
-    ans+= '@';
-    for(auto c: s){
-        ans+= '#';
-        ans+= c;
-    }
-        
-    ans+= "#$";
-} 
-// LPS leetcode
-void manachers(string& s, vector<int>& data){
-    string text= "";
-    hash(s, text);
-    int c= 0, r= 0, n= text.size(), pal[n]= {0}; // this array stores the number of elements in right side which are same as left side witth center i;
-    // the c and r store the center of the current palindromic string we are using. THIS IS NOT THE C AND R OF LPS TILL NOW
-    for(int i=1; i<n-1; i++){
-        
-        if( i < r){ 
-        // if i come inside the current palindrome we can simply copy the val of the mirror element iff it is storing val according to current palindrome so max it can go is upto r, hence the         minimum term.
-            int m= c - (i - c);
-            pal[i]= min(pal[m], r - i);
-        }
-        
-        while(text[ i + 1 + pal[i]] == text[ i - 1 - pal[i]]) //start checking only after the  i + pal[i] because wahan tk ke to same hi hain.
-            pal[i]++;
-        
-        if(i + pal[i] > r){     // if i ne ek naya palindrome diya range of which extends beyond current range update RANGE. 
-            c= i;
-            r= i + pal[i];
-        }
-    }
-    int cmax= 0, rmax= pal[cmax];  
-    for(int i=1; i<n; i++)
-        if(pal[i] > rmax){
-            cmax= i; rmax= pal[i];
-        }
-    data[0]= cmax;
-    data[1]= rmax;
-}
-string longestPalindrome(string s) {
-    int n= s.length();
-    if(n <= 0) return s;
-    vector<int> data(2, -1);
-    manachers(s, data);
-    // cout<< data[0]<<" "<< data[1];
-    return s.substr( (data[0]-1)/2 - data[1]/2, data[1]); // cmax and rmax are in text string.
 }
 
 NEXT Permutation
