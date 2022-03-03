@@ -42,7 +42,7 @@ class LinkedListUtils {
 				} else {
 					fastPtr = (fastPtr->next)->next;
 				}
-			} while (fastPtr != NULL && slowPtr != NULL && slowPtr != fastPtr);
+			} while (fastPtr != NULL && slowPtr != fastPtr);
 
 			if (slowPtr != fastPtr) {
 				return NULL;
@@ -57,36 +57,26 @@ class LinkedListUtils {
 			return slowPtr;
 		}
 
-		static ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode *l1, *l2;
-        if (list1 == NULL) {
-            return list2;
-        } else if (list2 == NULL) {
-            return list1;
-        }
-        
-        if (list1->val < list2->val) {
-            l1 = list1;
-            l2 = list2;
-        } else {
-            l1 = list2;
-            l2 = list1;
-        }
-        
-        ListNode *res = l1, *prev = l1;
-        l1 = l1->next;
-        
-        while (l1 != NULL) {
-            if (l1->val < l2->val) {
-                l1 = l1->next;
-            } else {
-                prev->next = l2;
-                l2 = l1;
-                l1 = (prev->next)->next;
-            }
-            prev = prev->next;
-        }
-        prev->next = l2;
-        return res;
-    }
+		static ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+	        if (l1 == NULL || l2 == NULL) {
+	            return l1 == NULL ? l2 : l1;
+	        }
+	        
+	        ListNode* head = l1->val < l2->val ? l1 : l2;
+	        ListNode* aux = l1 == head ? l2 : l1;
+	        
+	        ListNode* cur = head, *prev= NULL;
+	        while (cur != NULL) {
+	            if (cur->val  > aux->val) {
+	                prev-> next = aux;
+	                aux = cur;
+	                cur = prev->next;
+	            }
+	            prev = cur;
+	            cur = cur->next;
+	        }
+	        prev->next = aux;
+	        
+	        return head;
+	    }
 }

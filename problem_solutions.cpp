@@ -116,7 +116,8 @@ class Solutions {
 
 
 		/*
-		** 	PASS VAUE BY REFERENCE AS MUCH AS POSSIBLE, CAN SAVE A LOT IN REQUIRED MEMORY!!
+		** 	PASS VAUE BY REFERENCE AS MUCH AS POSSIBLE,
+		**	CAN SAVE A LOT IN REQUIRED MEMORY!!
 		**	see notes/pass_by_ref_on_memory_usage
 		** 	https://leetcode.com/problems/n-queens/submissions/
 		*/
@@ -202,4 +203,266 @@ class Solutions {
 
 	        return res;
 	    }
+
+
+		/*
+		**	SLIDING WINDOW TECHNIQUE
+		**	problem: min sub-array length with sum >= target
+		**	BRUTE -> for every i, find sum for [i, j] till sum >= target, take min of ans (n2)
+		**	IMPROVE ON BRUTE -> cretae sums array, now for every i, use binary search on sums,
+		**	such that sums[mid] - sums[i-1] >= target, take min of ans (nlog(n))
+		** 	sliding window, take 2 pointers i, j, on every iteration incr cur with arr[j],
+		**	remove ith element til the sum >= target, take min of j-i+1, O(n)
+		**	problem: https://leetcode.com/problems/minimum-size-subarray-sum/
+		*/
+
+    	int minSubArrayLen(int target, vector<int>& nums) {
+	        int n = nums.size();
+	        if (n == 0) {
+	            return -1;
+	        }
+	        
+	        int res = n+1;
+	        int i=0, j=0;
+	        int cur = 0;
+	        while (j<n) {
+	            cur+=nums[j];
+	            while (i <= j && cur - nums[i] >= target) {
+	                cur-= nums[i];
+	                i++;
+	            }
+	            
+	            if (cur >= target) {
+	                res = min(res, j-i+1);
+	            }
+	            
+	            j++;
+	        }
+	        return res == n+1 ? -1 : res;
+	    }
+
+
+	    /*
+	    **	TODO: refacor to use binary_search_utils
+	    */
+
+	    /*
+	    **	Longest Increasing Subsequence
+	    **	Best time: nlog(n), space: O(n)
+	    */
+	    int binSearch (int hi, int target, vector<int>& arr) {
+		    int lo = 0;
+		    while (lo < hi) {
+		        int mid = lo + (hi-lo)/2;
+		        if (arr[mid] < target) {
+		            lo = mid+1;
+		        } else {
+		            hi = mid;
+		        }
+		    }
+		    return lo;
+		}
+
+		/*
+		**	In the res array, res[i] denotes the smallest
+		**	largest element in an lis of length i+1
+		** 	at any point of time. (little tricky it is)
+		*/
+		int lis(const vector<int> &arr) {
+		    int n = arr.size();
+		    vector<int> res;
+		    for (int i=0; i<n; i++) {
+		        int index = binSearch(res.size()-1, arr[i], res);
+		        if (index == res.size() || res[index] < arr[i] ) {
+		            res.push_back(arr[i]);
+		        } else {
+		            res[index] = arr[i];
+		        }
+		    }
+		    return res.size();
+		}
+
+
+
+		/*
+		**	Puzzle
+		** Bulb switching
+		** Logic: since all the factors of a number appear in a number,
+		** there will be 2x factors of it, unless its a perfect sqr,
+		** in which case it will have pair of factors where both are same
+		*/
+
+
+		/*
+		**	Irritating questions like area in 2D matrix etc,
+		**	Think carefully about the dp.
+		**	https://leetcode.com/problems/maximal-square/submissions/
+		*/
+		int maximalSquare(vector<vector<char>>& matrix) {
+	        int m = matrix.size();
+	        int n = matrix[0].size();
+	        vector<int> dp(n, 0);
+	        
+	        int res = 0;
+	        for (int i=0; i<n; i++) {
+	            dp[i] = matrix[0][i] - '0';
+	            res = max(res, dp[i]);
+	        }
+	        
+	        
+	        for (int i = 1; i<m; i++) {
+	            int backup = dp[0];
+	            dp[0] = matrix[i][0] - '0';
+	            res = max(res, dp[0]);
+	            for (int j = 1; j<n; j++) {
+	                int temp = dp[j];
+	                dp[j] = matrix[i][j] == '1' ?
+	                    1 + min(
+	                        backup,
+	                        min(
+	                            dp[j-1],
+	                            dp[j]
+	                        )
+	                    ) :
+	                    0;
+	                backup = temp;
+	                res = max(res, dp[j] * dp[j]);
+	            }
+	        }
+	        return res;
+	    }
+
+	    /*
+	    **	Majority element in an array,
+	    **	if defined as one with more than n/2 occurances there will be 1 max
+	    ** 	................................ n/3 ........................ 2 max
+	    **	These problems can be approached using Boris-morse (not sure of name) algo
+	    ** 	problem: https://leetcode.com/problems/majority-element-ii/
+	    **	Works on voting logic, if some element occurs more than others than
+    	**	the last one to survive must be it.
+	    */
+	 	vector<int> majorityElement(vector<int>& nums) {
+	        int n = nums.size();
+	        if (n == 0) {
+	            return {};
+	        }
+	        int cand1 = nums[0];
+	        int cnt1= 0;
+	        int cand2 = cand1 -1;
+	        int cnt2= 0;
+	        
+	        for (int item: nums) {
+	            if (item == cand1) {
+	                cnt1++;
+	            } else if (item == cand2) {
+	                cnt2++;
+	            } else if (cnt1 == 0) {
+	                cand1 = item;
+	                cnt1 = 1;
+	            } else if (cnt2 == 0) {
+	                cand2 = item;
+	                cnt2 = 1;
+	            } else {
+	                cnt1--;
+	                cnt2--;
+	            }
+	        }
+	        
+	        cnt1 = 0;
+	        cnt2 = 0;
+	        for (int item: nums) {
+	            if (item == cand1) {
+	                cnt1++;
+	            } else if (item == cand2) {
+	                cnt2++;
+	            }
+	        }
+	        
+	        vector<int> res;
+	        if (cnt1 > n/3) {
+	            res.push_back(cand1);
+	        }
+	        if (cnt2 > n/3) {
+	            res.push_back(cand2);
+	        }
+	        return res;
+	    }
+
+	    /*
+	    **	number of BST with node value from 1 to n
+	    */
+        int numTrees(int n) {
+	        int ans[n+1];
+	        ans[0] = 1;
+	        ans[1] = 1;
+	        for (int i = 1; i<=n; i++) {
+	            int cur = 0;
+	            for (int j = 0; j<i; j++) {
+	                cur += ans[j] * ans[i-j-1];
+	            }
+	            ans[i] = cur;
+	        }
+	        return ans[n];
+	    }
+
+	    /*
+	    **	Solution is pretty cool
+	    ** 	if a solution exist, total must be >= 0
+	    **	lets say total >= 0, so solution exist.
+	    **	if 0 is a sol, cur will never update, if it has updated to something to lets say "cur" after loop ends
+	    **	indices before cur can not be sol for sure.
+	    ** 	if i > cur is a solution, then cur must also be a solotion :P
+	    **	hence cur will be the solution
+	    */
+	    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+	        int n = gas.size();
+	        int total = 0;
+	        int cur = 0;
+	        int start = 0;
+	        for (int i =0; i<n; i++) {
+	            total += gas[i] - cost[i];
+	            cur += gas[i] - cost[i];
+	            if (cur < 0) {
+	                start = i+1;
+	                cur = 0;
+	            }
+	        }
+	        return total >= 0 ? start : -1;
+	    }
+
+
+	    /*
+	    **	Solution is pretty cool
+	    **	https://leetcode.com/problems/largest-divisible-subset/
+	    */
+        vector<int> largestDivisibleSubset(vector<int>& arr) {
+	        int n = arr.size();
+	        sort(arr.begin(), arr.end());
+	        vector<int> dp(n, 1);
+	        vector<int> next(n, -1);
+	        int resLen = 1;
+	        int res = 0;
+	        for (int i=1; i<n; i++) {
+	            for (int j=i-1; j>=0; j--) {
+	            	// pretty much same as the O(n2) sol of LIS
+	                if (arr[i]%arr[j] == 0 && 1 + dp[j] > dp[i]) {
+	                    dp[i] = 1 + dp[j];
+	                    next[i] = j;
+	                }
+	                if (resLen < dp[i]) {
+	                    resLen = dp[i];
+	                    res = i;
+	                }
+	            }
+	        }
+	        
+	        vector<int> ans;
+	        while (res != -1) {
+	            ans.push_back(arr[res]);
+	            res = next[res];
+	        }
+	        return ans;
+    	}
 }
+
+https://leetcode.com/problems/jump-game-vii/discuss/1224804/JavaC%2B%2BPython-One-Pass-DP

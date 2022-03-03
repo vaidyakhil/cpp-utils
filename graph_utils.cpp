@@ -2,8 +2,8 @@ typedef pair<int, int> Pr;
 
 class GraphUtils {
 	/*
-	** There are (directed, undirected) * (weighted, unweighted), (connected, disconnected, strongly connected) 
-	** * (cyclic, acycli) * (positive edge, negative edge) graphs
+	** There are (directed, undirected) x (weighted, unweighted), (connected, disconnected, strongly connected) 
+	** * (cyclic, acycli) x (positive edge, negative edge) graphs
 	** These are important classifications of graph properties ^^
 	** connected -> there exists a path either or from u, v or v,u;
 	** disconnected -> there exist atleast 1 u,v for which no path exist for either u -> or v->u
@@ -157,7 +157,10 @@ class GraphUtils {
                 if (inCurPath[adj[cur][i]]) {
                     return true;
                 } else if (!visited[adj[cur][i]]){
-                	detectCycleRecursively(adj[cur][i], visited, inCurPath, adj);
+                	bool res = detectCycleRecursively(adj[cur][i], visited, inCurPath, adj);
+                	if (res) {
+                		return true;
+                	}
                 }
             }
         	inCurPath[cur] = false;
@@ -237,6 +240,24 @@ class GraphUtils {
 		    return res;
 		}
 
+		/*
+	    **	after function returns, reverse res to get result
+	    */
+	    void recursiveTopo(vector<vector<int>>& adj, int src, vector<bool>&visited, vector<int>& res) {
+	    	if (visited[src]) {
+	    		return;
+	    	}
+
+    		for (int i=0; i<adj[src].size(); i++) {
+    			recursiveTopo(adj, adj[src][i], visited);
+    		}
+
+    		// we can mark this visited before loop also no issue
+    		visited[src] = true;
+    		res.push_back(src);
+    		return;
+	    }
+
     	/*
     	**	SHORTEST DISTANCE
     	**	For unweighted graphs, simply BFS will give shortest path for both directed/undirected graph
@@ -245,14 +266,13 @@ class GraphUtils {
 		/*
     	**	Floyd-Warshall
     	**	find sd b/w every pair of nodes on a given weighted graph
-    	**	edges cannot have -ve weights.
     	**	T-> O(n3), S->O(n2)
     	*/
     	void floydWarshall(vector<vector<int>>& adj) {
 	    	/*
 	    	**	adj[i][j] == -1 if no {i, j} does not exist in edges]
-	    	** adj[i][j] = dist(i -> j)
-	    	** directed/ undirected weighted graph (with no negative edges)
+	    	** 	adj[i][j] = dist(i -> j)
+	    	** 	directed/ undirected weighted graph (can have negative weights as well)
 			*/
 			
 			int n = adj.size();
@@ -290,7 +310,8 @@ class GraphUtils {
     	*/
 	    void dijkstra(vector<vector<int>>& edges, int src, vector<vector<int>>& dist) {
 	        int n = dist.size();
-	        vector<bool> visited(n, false);
+	        vector<bool> visited(n
+	        	, false);
 	        for (int i=0; i<edges.size(); i++) {
 	            dist[edges[i][0]][edges[i][1]] = edges[i][2];
 	        }
@@ -361,5 +382,4 @@ class GraphUtils {
 		    }
 		    return;
 	    }
-
 }
