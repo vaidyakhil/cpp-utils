@@ -1,11 +1,16 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
 class DpUtills {
 
     /*
-    ** If all subproblems must be solved at least once, a bottom-up dynamic-programming algorithm usually outperforms a top-down memoized algorithm by a constant factor.
-
-    ** If some subproblems need not to be solved at all, memoization will be better than DP, else in general DP outperforms memo due to less overhead of call stack.
+    **  If all subproblems must be solved at least once,
+    **  a bottom-up dynamic-programming algorithm usually outperforms a top-down memoized algorithm
+    **  by a constant factor.
+    **  If some subproblems need not to be solved at all, memoization will be better than DP,
+    **  else in general DP outperforms memo due to less overhead of call stack.
     */
-
 
     /*
     ** MEMOIZATION TEMPLATE
@@ -22,9 +27,12 @@ class DpUtills {
     */
 
     private:
-        // generates a string adding chars at the start and end of original string
-        // that do not exist in original string 
-        // adds a char again not part of original string, b/w every char
+
+        /*
+        **  generates a string adding chars at the start and end of original string
+        **  that do not exist in original string 
+        **  adds a char again not part of original string, b/w every char
+        */
         string getManipualtedString(string s) {
             string res = "$";
             for (int i=0; i<s.size(); i++) {
@@ -37,7 +45,9 @@ class DpUtills {
         }
     
     public:
-        // manacher's algorithm
+        /*
+        **  manacher's algorithm
+        */
         string longestPalindromeSubString(string s) {
             int n = s.size();
             
@@ -50,10 +60,12 @@ class DpUtills {
             int m = TEST.size();
             vector<int> dp = vector<int>(m, 0);
             
-            // here we maintain center and number of elements
-            // which are same on the left and right of center
-            // at any point the palindrome is one with greatest r 
-            // (so that for most i >c, we have pre computed values)
+            /*
+            **  here we maintain center and number of elements
+            **  which are same on the left and right of center
+            **  at any point the palindrome is one with greatest r 
+            **  (so that for most i >c, we have pre computed values)
+            */
             int cur = 0, r= 0;
 
             // these are final values of center and r in TEST string
@@ -85,8 +97,10 @@ class DpUtills {
         }
 
 
-    	// LIS
-    	// n2 sol
+        /*
+        **  LIS
+        **  n2 sol
+        */
     	int lengthOfLIS(vector<int>& nums) {
             int n = nums.size();
             if (n < 2) {
@@ -107,10 +121,12 @@ class DpUtills {
             return res;
         }
 
-        // with bin search lesser-than-or-equal-to variant
-        // at every index generate the LIS till that index with smallest numbers possible
-        // O(n) space
-        // O(nlog(n)) time
+        /*
+        **  with bin search lesser-than-or-equal-to variant
+        **  at every index generate the LIS till that index with smallest numbers possible
+        **  O(n) space
+        **  O(nlog(n)) time
+        */
         int lengthOfLISBinarySearch (vector<int>& nums) {
             int n= nums.size();
             if (n<2) {
@@ -135,8 +151,10 @@ class DpUtills {
         }
 
 
-        // longest palindromic subsequence lps
-        // using O(n) space, O(n2) time
+        /*
+        **  longest palindromic subsequence lps
+        **  using O(n) space, O(n2) time
+        */
         int longestPalindromeSubseq(string s) {
             int n = s.size();
             if (n < 2) {
@@ -161,7 +179,9 @@ class DpUtills {
             return dp[0];
         }
 
-        // using O(n) space, O(n2) time
+        /*
+        **  using O(n) space, O(n2) time
+        */
         int longestCommonSubsequence(string text1, string text2) {
             int n = text1.size();
             int m = text2.size();
@@ -198,8 +218,10 @@ class DpUtills {
             long long res = nums[0];3
             long long cur = 0;
             for (int i=0; i<n; i++) {
-                // if all nums are negative, we are comparing individual num with res,
-                // since cur = 0 at the start of every iteration
+                /*
+                **  if all nums are negative, we are comparing individual num with res,
+                **  since cur = 0 at the start of every iteration
+                */
                 cur+= nums[i];
                 res = max(res, cur);
                 
@@ -209,4 +231,4 @@ class DpUtills {
             }
             return res;
         }
-}
+};

@@ -1,3 +1,7 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
 class ListNode {
 	public:
 		int val;
@@ -5,11 +9,11 @@ class ListNode {
 
 		ListNode(int x) : val(x), next(NULL) {};
 		ListNode() : val(0), next(NULL) {};
-}
+};
 
 class LinkedListUtils {
 	public:
-		static bool hasCycle(ListNode* head) {
+		bool hasCycle(ListNode* head) {
 			if (head == NULL || head->next == NULL) {
 				return false;
 			}
@@ -28,7 +32,7 @@ class LinkedListUtils {
 			return (fastPtr != NULL && slowPtr != NULL);
 		}
 
-		static ListNode* getCycleStart(ListNode* head) {
+		ListNode* getCycleStart(ListNode* head) {
 			if (head == NULL || head->next == NULL) {
 				return NULL;
 			}
@@ -57,7 +61,7 @@ class LinkedListUtils {
 			return slowPtr;
 		}
 
-		static ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+		ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
 	        if (l1 == NULL || l2 == NULL) {
 	            return l1 == NULL ? l2 : l1;
 	        }
@@ -79,4 +83,4 @@ class LinkedListUtils {
 	        
 	        return head;
 	    }
-}
+};

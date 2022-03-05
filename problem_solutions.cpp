@@ -1,9 +1,18 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+/*
+**	This class should have solutions to interesting problems
+**	Interesting here means, either they are solved using a new concept,
+**	or they are important from interview perspective
+*/
 class Solutions {
 	public:
 		/*
 		** https://www.interviewbit.com/blog/minimum-number-of-jumps/
 		*/
-		static int minJump(vector<int> &A) {
+		int minJump(vector<int> &A) {
 	        int n = A.size();
 	        int res = 0;
 	        if (n < 2) {
@@ -463,6 +472,7 @@ class Solutions {
 	        }
 	        return ans;
     	}
-}
 
-https://leetcode.com/problems/jump-game-vii/discuss/1224804/JavaC%2B%2BPython-One-Pass-DP
+    	// https://leetcode.com/problems/jump-game-vii/discuss/1224804/JavaC%2B%2BPython-One-Pass-DP
+};
+

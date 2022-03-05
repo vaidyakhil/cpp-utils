@@ -2,49 +2,14 @@
 
 using namespace std;
 
+/*
+**	It is ok if this class remains an empty class and just contains comments 
+**	explaining certain algorithms that DO NOT QUITE FIT INTO SPECIFIC UTIL CLASSES
+**	having said that, having method is a plus++ :P
+*/
 class AlgosV2 {
-	private:
-		int _dsu_getRoot(int a, vector<int>& par) {
-			while (par[a] != a) {
-				/*
-				**	Do not update count here it does not work in expected fashion
-				*/
-				par[a] = par[par[a]];
-				a = par[a];
-			}
-			return a;
-		}
 
 	public:
-		/*
-		**	DISJOINT SET UNION
-		**  _dsu_getRoot-> returns the root of the connected component, root is one which has par[a] as a;
-		** 	root-> while finding root of a node we update its parent as the parent of its parent, 
-		**	so that search for root next time is faster.
-		**	dsu_find-> returns true if two nodes have same roots
-		** 	Union -> if belong to diff groups we set parent of root of a to root of b, if count[b] > count[a];
-		** 	count ensures that we add root of smaller group to root of bigger group and the par[a]= par[par[a]] helps to ensure least skewed data structure of parent array.
-		*/
-
-		bool dsu_find(int a, int b, vector<int>& par){
-		    return _dsu_getRoot(a, par) == _dsu_getRoot(b, par);
-		}
-
-		void dsu_union(int a, int b, vector<int>& par, vector<int>& count){
-		    int root_a=_dsu_getRoot(a, par), root_b= _dsu_getRoot(b, par);
-		    
-		    if(root_a != root_b) {
-		        if(count[root_a] >= count[root_b]){
-		            par[root_b]= root_a;
-		            count[root_a]+= count[root_b];
-		        }
-		        else{
-		            par[root_a]= root_b;
-		            count[root_b]+= count[root_a];
-		        }
-		    }
-		    return;
-		}
 
 
 		/*

@@ -6,7 +6,7 @@ struct TreeNode {
 	TreeNode *left, *right;
 
 	TreeNode(int value): val(value), left(NULL), right(NULL) {};
-}
+};
 
 class Trees {
     private:
@@ -77,7 +77,7 @@ class Trees {
             }
         }
 
-        //postorder
+        /* postorder */
         void recurPostorder(TreeNode* root, vector<int>& res) {
             if (root == NULL) {
                 return;
@@ -87,7 +87,8 @@ class Trees {
             recurPostorder(root->right, res);
             res.push_back(root->val);
         }
-        // have not been able to do a iterative one for post order
+        
+        /* -----> have not been able to do a iterative one for post order <------ */
 
 
         /*
@@ -121,8 +122,10 @@ class Trees {
 
 		static vector<int> traverseTree(TreeNode* root) {
 	        vector<int> res;
-            // methods among the above ^^
-	        // typeOrderOfChoiceFn(root, res);
+            /*
+            ** methods among the above ^^
+	        ** typeOrderOfChoiceFn(root, res);
+            */
 	        return res;
 		}
 

@@ -1,3 +1,7 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
 class BitUtils {
 public:
 	int countSetBits (int num) {
@@ -31,4 +35,4 @@ public:
         
         return ans;
     }
-}
+};
