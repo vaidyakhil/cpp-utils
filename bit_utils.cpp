@@ -4,6 +4,7 @@ using namespace std;
 
 class BitUtils {
 public:
+    /* BRIAN KERNIGHAN'S ALGO */
 	int countSetBits (int num) {
 		int res = 0;
 		int n = num;

@@ -8,6 +8,16 @@ using namespace std;
 **	or they are important from interview perspective
 */
 class Solutions {
+	private:
+	    
+	    int getNum (string s) {
+	        int res = 0;
+	        for (char ch: s) {
+	            res = 10 * res + (ch - '0');
+	        }
+	        return res;
+	    }
+
 	public:
 		/*
 		** https://www.interviewbit.com/blog/minimum-number-of-jumps/
@@ -472,6 +482,39 @@ class Solutions {
 	        }
 	        return ans;
     	}
+   
+   		/*
+   		**	Number of ways to decode a string
+   		** 	https://leetcode.com/problems/decode-ways/
+   		**	ITS ALL ABOUT HANDLING ZERO PROPERLY
+   		*/
+	    int numDecodings(string s) {
+	        int n = s.size();
+	        if (n == 0 || s[0] == '0') {
+	            return 0;
+	        }
+	        
+	        int prev = 1;
+	        int cur = 1;
+	        for (int i=1; i<n; i++) {
+	            int temp = 0;
+	            if (s[i] != '0') {
+	                temp+= cur;
+	            }
+	            
+	            int twoDig = getNum(s.substr(i-1, 2));
+	            if (twoDig == 0) {
+	                return 0;
+	            }
+	            
+	            if (twoDig < 27 && twoDig > 9) {
+	                temp+= prev;
+	            }
+	            prev = cur;
+	            cur = temp;
+	        }
+	        return cur;
+	    }
 
     	// https://leetcode.com/problems/jump-game-vii/discuss/1224804/JavaC%2B%2BPython-One-Pass-DP
 };

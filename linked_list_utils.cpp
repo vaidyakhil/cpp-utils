@@ -12,6 +12,13 @@ class ListNode {
 };
 
 class LinkedListUtils {
+
+    /*
+    **  In case of linked list and trees pointer to pointer has to be sent
+    **  in questions where the the sent head has to point somewhere else
+    **  i.e VALUE IN POINTER HAS TO BE CHANGED SO POINTER TO POINTER HAS TO BE SENT
+    */
+	
 	public:
 		bool hasCycle(ListNode* head) {
 			if (head == NULL || head->next == NULL) {

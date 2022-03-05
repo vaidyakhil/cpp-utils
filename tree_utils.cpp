@@ -8,7 +8,20 @@ struct TreeNode {
 	TreeNode(int value): val(value), left(NULL), right(NULL) {};
 };
 
-class Trees {
+class TreesUtils {
+
+    /*
+    **  In case of linked list and trees pointer to pointer has to be sent
+    **  in questions where the the sent head has to point somewhere else
+    **  i.e VALUE IN POINTER HAS TO BE CHANGED SO POINTER TO POINTER HAS TO BE SENT
+    */
+
+    /*
+    **  Balanced Binary tree is one which has all the levels filled except maybe the last one
+    **  and all  the nodes are possiblly to the leftmost.
+    **  Full binary tree is one in which every node has either 0 or 2 childeren
+    */
+
     private:
 		/*
 		**traversals
