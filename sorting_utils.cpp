@@ -13,6 +13,7 @@ class SortingUtils {
 	    if range of data O(n).
 	** for  radix sort:
 	    if ~ n > logb(n); 
+    **	Selection sort gives the minimum number of swaps required to sort the array
 	*/
 
 	private: 
