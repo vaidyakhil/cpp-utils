@@ -15,45 +15,7 @@ Minimum Spanning Tree-> ( Kruskal, Prims ( Heap(min, max), priority queue )
 
 ------------------------------------------------------------------------------------------------------------------
 Bipartite graphs is one in which nodes can be divided into 2 sets of nodes such that any edge connnects vertices from one set to another set only.
---------------------------------------------------------------------------------------------------------------------
-
-Disjoint Set Union Find method 
-
-**  root-> returns the root of the connected component, root is one which has par[a] as a;
-** 	root-> while finding root of a node we update its parent as the parent of its parent, so that search for root next time is faster.
-** find-> returns true if two nodes have same roots
-** Union -> if belong to diff groups we set parent of root of a to root of b, if count[b] > count[a];
-** count ensures that we add root of smaller group to root of bigger group and the par[a]= par[par[a]] helps to ensure least skewed data structure of parent array.
-
-int root(int a, int* par){
-    while(par[a] != a){
-        par[a]= par[par[a]];
-        a= par[a];
-    }
-    return a;
-}
-
-bool find(int a, int b, int* par){
-    if(root(a, par) == root(b, par))
-        return true;
-    return false;
-}
-
-void Union(int a, int b, int* par, int* count){
-    int root_a=root(a, par), root_b= root(b, par);
-    
-    if(root_a != root_b){
-        if(count[root_a] >= count[root_b]){
-            par[root_b]= root_a;
-            count[root_a]+= count[root_b];
-        }
-        else{
-            par[root_a]= root_b;
-            count[root_b]+= count[root_a];
-        }
-    }
-    return;
-}
+------------------------------------------------------------------------------------------------------------------
 
 ----------------------------------------------------------------------------------------------------
 

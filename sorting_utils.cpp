@@ -265,7 +265,7 @@ class SortingUtils {
 		        maxHeapify(aux, 1, i-1);
 		    }
 		    
-		    // copying into 1 indexed aux array
+		    // copying back to original array
 		    for (int i=0; i<N; i++) {
 		    	arr[i] = aux[i+1];
 		    }
