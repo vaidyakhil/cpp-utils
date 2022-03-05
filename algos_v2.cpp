@@ -1,3 +1,7 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
 class AlgosV2 {
 	private:
 		int _dsu_getRoot(int a, vector<int>& par) {
@@ -27,7 +31,7 @@ class AlgosV2 {
 		}
 
 		void dsu_union(int a, int b, vector<int>& par, vector<int>& count){
-		    int root_a=root(a, par), root_b= root(b, par);
+		    int root_a=_dsu_getRoot(a, par), root_b= _dsu_getRoot(b, par);
 		    
 		    if(root_a != root_b) {
 		        if(count[root_a] >= count[root_b]){
@@ -112,4 +116,4 @@ class AlgosV2 {
 	        
 	        return cur;
 	    }
-} 
+};
