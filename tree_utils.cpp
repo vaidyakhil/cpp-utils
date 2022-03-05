@@ -89,6 +89,34 @@ class Trees {
         }
         // have not been able to do a iterative one for post order
 
+
+        /*
+        ** if simple level order, just push in one order
+        */
+        void recurZigZagLevelOrder(TreeNode* root, int cur, int height, vector<vector<int>>& res) {
+            if (root == NULL) {
+                return;
+            }
+            
+            if (cur < height) {
+                if (height % 2 == 0) {
+                    recurZigZagLevelOrder(root->left, cur+1, height, res);
+                    recurZigZagLevelOrder(root->right, cur+1, height, res);
+                } else {
+                    recurZigZagLevelOrder(root->right, cur+1, height, res);
+                    recurZigZagLevelOrder(root->left, cur+1, height, res);
+                }
+                return;
+            }
+            
+            if (res.size() <= height) {
+                res.push_back(vector<int>());
+            }
+            
+            res[height].push_back(root->val);
+            return;
+        }
+
 	public:
 
 		static vector<int> traverseTree(TreeNode* root) {
@@ -102,6 +130,19 @@ class Trees {
             if(root == NULL)
                 return 0;
 
-            return 1+ max(depth(root->left),depth(root->right));
-        }	
+            return 1+ max(getHeight(root->left),getHeight(root->right));
+        }
+
+        vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+            vector<vector<int>> res;
+            int height = getHeight(root);
+            
+            int h = 0;
+            while (h < height) {
+                recurZigZagLevelOrder(root, 0, h, res);
+                h++;
+            }
+            
+            return res;
+        }
 };
