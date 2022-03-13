@@ -115,4 +115,14 @@ class StringUtils {
 				}
 			}
 		}
+
+		string fromInt(int n) {
+	        string res = "";
+	        while (n) {
+	        	res = res + (char)(n%10 + '0');
+	        	n/=10;
+	        }
+	        reverse(res.begin(), res.end());
+	        return res;
+		}
 };
